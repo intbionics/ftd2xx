@@ -186,7 +186,7 @@ def listDevices(flags: int = 0) -> Optional[List[bytes]]:
     n = _ft.DWORD()
     call_ft(_ft.FT_ListDevices, c.byref(n), None, _ft.DWORD(defines.LIST_NUMBER_ONLY))
     devcount = n.value
-    LOGGER.debug("Found %i devices", devcount)
+    #LOGGER.debug("Found %i devices", devcount)
     if devcount:
         # since ctypes has no pointer arithmetic.
         bd = [
