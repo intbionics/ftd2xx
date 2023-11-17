@@ -5,7 +5,22 @@ from ctypes import *
 
 STRING = c_char_p
 _libraries = {}
-_libraries["/usr/local/lib/libftd2xx.dylib"] = CDLL("/usr/local/lib/libftd2xx.dylib")
+
+# ssmith search local areas for
+#_libraries["/usr/local/lib/libftd2xx.dylib"] = CDLL("/usr/local/lib/libftd2xx.dylib")
+libftdipaths = [
+    '../Frameworks/libftd2xx.1.4.4.dylib',       #deployed and signed in framework
+    'macosx/package_frameworks/libftd2xx/libftd2xx.1.4.4.dylib',  #running directly
+    '/usr/local/lib/libftd2xx.dylib',             #default
+]
+for ftditrypath in libftdipaths:
+    try:
+        _libraries['/usr/local/lib/libftd2xx.dylib'] = CDLL(ftditrypath)
+        break
+    except:
+        pass
+if '/usr/local/lib/libftd2xx.dylib' not in _libraries.keys():
+    raise Exception('No libftd2xx.1.4.4.dylib found in locations:\n'+'\n'.join(libftdipaths))
 
 
 FT_IO_ERROR = 4
